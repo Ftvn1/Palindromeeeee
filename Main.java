@@ -9,27 +9,35 @@
 
 package Yurii;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main{
 public static void main(String[] args) {
 
 	int number = 0;
-	String Number = null;
+	String stringNumber = "";
 	int middle = 0;
 	int answer = 0;
 	int counter = 0;
 	boolean only9checker = true;
+	boolean numberFlag = true;
 	
 	System.out.println("Hello! Please enter your positive integer number here: ");
     Scanner scan = new Scanner(System.in);
-	number = scan.nextInt();
-	Number = Integer.toString(number);
-	middle = Number.length()/2;
-	int [] numDigitsArray = new int [Number.length()];
+	try {
+		number = scan.nextInt();
+	}
+	catch (InputMismatchException ex) {
+		System.out.println ("Sorry, it was not the number");
+		numberFlag = false;
+	}
+	stringNumber = Integer.toString(number);
+	middle = stringNumber.length()/2;
+	int [] numDigitsArray = new int [stringNumber.length()];
 
 	for (int i = 0; i < numDigitsArray.length; i++) {
-		numDigitsArray[i] = Character.getNumericValue(Number.charAt(i));
+		numDigitsArray[i] = Character.getNumericValue(stringNumber.charAt(i));
 		if (numDigitsArray[i] != 9) only9checker = false; 
 	}
   if (number >=0) {
@@ -58,7 +66,6 @@ public static void main(String[] args) {
             }
             else if (middlePart(number, middle) == 9) {
             	 answer = ((int) Math.round((firstHalf(number, middle)+1)*Math.pow(10, middle) + firstHalfReversed (numDigitsArray, middle) + Math.pow(10, middle-1)));
-            	 System.out.println ("You are here 3");
               }
             else {
               answer = ((int) Math.round((firstHalf(number, middle))*Math.pow(10, middle) + Math.pow(10, middle) + firstHalfReversed (numDigitsArray, middle)));
@@ -66,7 +73,7 @@ public static void main(String[] args) {
     	  }
         }
       }
-  System.out.println ("And the smallest available palindrome number, bigger than entered number " + number + " is: " + answer + ", thank you! :-)");
+  if (numberFlag) {System.out.println ("And the smallest available palindrome number, bigger than entered number " + number + " is: " + answer + ", thank you! :-)");}
   } 
   else System.out.println ("Sorry, I asked for POSITIVE number, it means >= 0. Thank you! :-)");
 }
